@@ -1,9 +1,12 @@
+#include <algorithm>
 #include <iostream>
 #include <string>
 #include <limits>
 using namespace std;
 
 void insertNewID(string IDarray[], int& sizeCount);
+
+void searchID(string IDarray[], int sizeCount);
 
 void replaceID(string IDarray[], int sizeCount);
 
@@ -38,7 +41,7 @@ int main() {
                 break;
             }
             case 2: {
-
+                searchID(IDarray, sizeCount);
                 break;
             }
             case 3: {
@@ -78,7 +81,7 @@ void insertNewID(string IDarray[], int& sizeCount) {
         cout << "Maximum number of IDs reached" << endl << "Coming soon - Upgrade to maximum of 40 IDs for only $3.99/month" << endl;
         return;
     }
-    cout << "Enter new user ID in the ( UserID UserName ) format" << endl;
+    cout << "Enter new Student ID in the ( StudentID StudentName ) format" << endl;
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
     string inputID;
     getline(cin, inputID);
@@ -86,21 +89,40 @@ void insertNewID(string IDarray[], int& sizeCount) {
     sizeCount++;
 }
 
+void searchID(string IDarray[], int sizeCount) {
+    cout << "Search by student ID or student Name" << endl << "Input student search:";
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    string searchTarget;
+    getline(cin, searchTarget);
+    int index;
+    for (int i = 0; i < sizeCount; i++) {
+        if (IDarray[i].find(searchTarget) > 0) {
+            break;
+        }
+        index++;
+    }
+    if (index == sizeCount) {
+        cout << "Student ID not found under this query" << endl;
+        return;
+    }
+    cout << IDarray[index] << " found at index[" << index << "]" << endl;
+}
+
 void replaceID(string IDarray[], int sizeCount) {
-    cout << "Choose which user ID index to replace" << endl << "User ID Index[";
+    cout << "Choose which student ID index to replace" << endl << "Student ID Index[";
     int index;
     cin >> index;
     if (index < 0 || index >= sizeCount) {
-        cout << "User ID not found at this index value" << endl;
+        cout << "Student ID not found at this index value" << endl;
         return;
     }
-    cout << endl << "User ID Index[" << index << "] = " << IDarray[index] << endl;
-    cout << "Enter new user ID in the ( UserID UserName ) format" << endl;
+    cout << endl << "Student ID Index[" << index << "] = " << IDarray[index] << endl;
+    cout << "Enter new student ID in the ( StudentID StudentName ) format" << endl;
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
     string inputID;
     getline(cin, inputID);
     IDarray[index] = inputID;
-    cout << "User ID replaced" << endl;
+    cout << "Student ID replaced" << endl;
 }
 
 void displayIDarray(string IDarray[], int sizeCount) {
@@ -109,7 +131,7 @@ void displayIDarray(string IDarray[], int sizeCount) {
         return;
     }
     for (int i = 0; i < sizeCount; i++) {
-        cout << "User ID Index[" << i << "] = " << IDarray[i] << endl;
+        cout << "Student ID Index[" << i << "] = " << IDarray[i] << endl;
     }
 }
 
