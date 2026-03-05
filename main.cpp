@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <limits>
 using namespace std;
 
 void insertNewID(string IDarray[], int& sizeCount);
@@ -34,27 +35,34 @@ int main() {
         switch (action) {
             case 1: {
                 insertNewID(IDarray, sizeCount);
+                break;
             }
             case 2: {
 
+                break;
             }
             case 3: {
                 replaceID(IDarray, sizeCount);
+                break;
             }
             case 4: {
 
+                break;
             }
             case 5: {
                 displayIDarray(IDarray, sizeCount);
+                break;
             }
             case 6: {
-
+                break;
             }
             case 7: {
-
+                break;
             }
             case 8: {
+                cout << endl << "Closing Program";
                 loopCont = false;
+                break;
             }
             default: {
                 cout << "Invalid action" << endl;
@@ -71,6 +79,7 @@ void insertNewID(string IDarray[], int& sizeCount) {
         return;
     }
     cout << "Enter new user ID in the ( UserID UserName ) format" << endl;
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
     string inputID;
     getline(cin, inputID);
     IDarray[sizeCount] = inputID;
@@ -87,6 +96,7 @@ void replaceID(string IDarray[], int sizeCount) {
     }
     cout << endl << "User ID Index[" << index << "] = " << IDarray[index] << endl;
     cout << "Enter new user ID in the ( UserID UserName ) format" << endl;
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
     string inputID;
     getline(cin, inputID);
     IDarray[index] = inputID;
