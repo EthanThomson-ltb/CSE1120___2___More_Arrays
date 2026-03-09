@@ -6,7 +6,9 @@ using namespace std;
 
 void insertNewID(string IDarray[], int& sizeCount);
 
-void searchID(string IDarray[], int sizeCount);
+int searchIDclient(string IDarray[], int sizeCount);
+
+int searchIDloop(string IDarray[], int sizeCount);
 
 void replaceID(string IDarray[], int sizeCount);
 
@@ -41,7 +43,7 @@ int main() {
                 break;
             }
             case 2: {
-                searchID(IDarray, sizeCount);
+
                 break;
             }
             case 3: {
@@ -69,7 +71,7 @@ int main() {
             }
             default: {
                 cout << "Invalid action" << endl;
-                break;
+                return 0;
             }
         }
     }
@@ -89,39 +91,61 @@ void insertNewID(string IDarray[], int& sizeCount) {
     sizeCount++;
 }
 
-void searchID(string IDarray[], int sizeCount) {
-    cout << "Search by student ID or student Name" << endl << "Input student search:";
+int searchIDclient(string IDarray[], int sizeCount) {
+    cout << "To search for a student entry by name, input 1" << endl << "To search for a student ID by index, input 2";
+    int index;
+    int nameVsIndex;
+    for (;;) {
+        cin >> nameVsIndex;
+        switch (nameVsIndex) {
+            case 1: {
+                cout << "Searching by student ID or student Name" << endl << "Input student search:";
+                index = searchIDloop(IDarray, sizeCount);
+                if (index == -1) {
+                    cout << "Student ID not found under this query, please try again." << endl;
+                } else {
+                    cout << IDarray[index] << " found at index[" << index << "]" << endl;
+                    return index;
+                }
+            }
+            case 2: {
+                cout << "Searching student ID by index" << endl << "Student ID Index[";
+                cin >> index;
+                if (index < 0 || index >= sizeCount) {
+                    cout << "Student ID not found at this index value, please try again." << endl;
+                } else {
+                    cout << endl << "Student ID Index[" << index << "] = " << IDarray[index] << endl;
+                    return index;
+                }
+            }
+            default: {
+                cout << "Invalid entry, please try again." << endl;
+                break;
+            }
+        }
+    }
+}
+
+int searchIDloop(string IDarray[], int sizeCount) {
+
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
     string searchTarget;
     getline(cin, searchTarget);
-    int index;
     for (int i = 0; i < sizeCount; i++) {
-        if (IDarray[i].find(searchTarget) > 0) {
-            break;
+        if (IDarray[i].find(searchTarget) != -1) {
+            return i;
         }
-        index++;
     }
-    if (index == sizeCount) {
-        cout << "Student ID not found under this query" << endl;
-        return;
-    }
-    cout << IDarray[index] << " found at index[" << index << "]" << endl;
+    return -1;
 }
 
 void replaceID(string IDarray[], int sizeCount) {
-    cout << "Choose which student ID index to replace" << endl << "Student ID Index[";
-    int index;
-    cin >> index;
-    if (index < 0 || index >= sizeCount) {
-        cout << "Student ID not found at this index value" << endl;
-        return;
-    }
-    cout << endl << "Student ID Index[" << index << "] = " << IDarray[index] << endl;
+
     cout << "Enter new student ID in the ( StudentID StudentName ) format" << endl;
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
     string inputID;
     getline(cin, inputID);
-    IDarray[index] = inputID;
+    IDarray[sizeCount] = inputID;
     cout << "Student ID replaced" << endl;
 }
 
