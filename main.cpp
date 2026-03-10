@@ -12,14 +12,18 @@ int searchIDloop(string IDarray[], int sizeCount);
 
 void replaceID(string IDarray[], int sizeCount);
 
+void deleteID(string IDarray[], int& sizeCount);
+
+void shift(string IDarray[], int sizeCount, int index);
+
 void displayIDarray(string IDarray[], int sizeCount);
 
 
 int main() {
 
     string IDarray[20];
-    for (int i = 0; i < 20; i++) {
-        IDarray[i] = "EMPTY";
+    for (auto & i : IDarray) {
+        i = "EMPTY";
     }
     int sizeCount = 0;
     cout << "----Student ID Manager----" << endl;
@@ -56,7 +60,7 @@ int main() {
                 break;
             }
             case 4: {
-
+                deleteID(IDarray, sizeCount);
                 break;
             }
             case 5: {
@@ -79,6 +83,14 @@ int main() {
                 return 0;
             }
         }
+
+        //Debug tool
+        /*
+        for (int i = 0; i < 20; i++) {
+            cout << "ID" << i << ": " << IDarray[i] << endl;
+        }
+        */
+
     }
     return 0;
 }
@@ -96,7 +108,7 @@ int searchIDclient(string IDarray[], int sizeCount) {
     int index;
     int nameVsIndex;
     for (;;) {
-        cout << "To search for a student entry by ID or name, input 1" << endl << "To search for a student entry by index, input 2" << endl << "To exit this action, input 0";
+        cout << "To search for a student entry by ID or name, input 1" << endl << "To search for a student entry by index, input 2" << endl << "To exit this action, input 0" << endl;
         cin >> nameVsIndex;
         switch (nameVsIndex) {
             case 0: {
@@ -126,7 +138,7 @@ int searchIDclient(string IDarray[], int sizeCount) {
                 break;
             }
             default: {
-                cout << "Invalid entry, please try again." << endl;
+                cout << "Invalid input, please try again." << endl;
                 break;
             }
         }
@@ -157,8 +169,8 @@ void replaceID(string IDarray[], int sizeCount) {
     }
     cout << "Are your sure you want to replace index " << index << "?" << endl << "Currently stored information will be lost" << endl;
     int yvsn;
-    cout << "To cancel this action, input 1" << endl << "To continue, input 2";
     for (;;) {
+        cout << "To cancel this action, input 1" << endl << "To continue, input 2" << endl;
         cin >> yvsn;
         switch (yvsn) {
             case 1: {
@@ -171,10 +183,54 @@ void replaceID(string IDarray[], int sizeCount) {
                 return;
             }
             default: {
-                cout << "Invalid entry, please try again." << endl;
+                cout << "Invalid input, please try again." << endl;
                 break;
             }
         }
+    }
+}
+
+//The majority of the code is identical to that of the replaceID function, however most of the console outputs are different so consolidating would be difficult.
+void deleteID(string IDarray[], int& sizeCount) {
+    if (sizeCount == 0) {
+        cout << "No stored IDs found" << endl;
+        return;
+    }
+    cout << "Choose student ID to be deleted" << endl;
+    int index = searchIDclient(IDarray, sizeCount);
+    if (index == -1) {
+        return;
+    }
+    cout << "Are your sure you want to delete index " << index << "?" << endl << "Currently stored information will be lost" << endl;
+    int yvsn;
+    for (;;) {
+        cout << "To cancel this action, input 1" << endl << "To continue, input 2" << endl;
+        cin >> yvsn;
+        switch (yvsn) {
+            case 1: {
+                cout << "Exiting..." << endl;
+                return;
+            }
+            case 2: {
+                shift(IDarray, sizeCount, index);
+                sizeCount--;
+                cout << "Student ID deleted" << endl;
+                return;
+            }
+            default: {
+                cout << "Invalid input, please try again." << endl;
+                break;
+            }
+        }
+    }
+}
+
+void shift(string IDarray[], int sizeCount, int index) {
+    for (int i = index; i <= sizeCount; i++) {
+        IDarray[i] = IDarray[i + 1];
+    }
+    if (sizeCount == 20) {
+        IDarray[19] = "EMPTY";
     }
 }
 
