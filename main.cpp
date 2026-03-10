@@ -4,7 +4,7 @@
 #include <limits>
 using namespace std;
 
-void insertNewID(string IDarray[], int& sizeCount);
+void insertNewID(string IDarray[], int index);
 
 int searchIDclient(string IDarray[], int sizeCount);
 
@@ -39,11 +39,16 @@ int main() {
         cin >> action;
         switch (action) {
             case 1: {
-                insertNewID(IDarray, sizeCount);
+                if (sizeCount == 20) {
+                    cout << "Maximum number of IDs reached" << endl << "Coming soon - Upgrade to maximum of 40 IDs for only $3.99/month" << endl;
+                } else {
+                    insertNewID(IDarray, sizeCount);
+                    sizeCount++;
+                }
                 break;
             }
             case 2: {
-
+                searchIDclient(IDarray, sizeCount);
                 break;
             }
             case 3: {
@@ -78,26 +83,26 @@ int main() {
     return 0;
 }
 
-void insertNewID(string IDarray[], int& sizeCount) {
-    if (sizeCount == 20) {
-        cout << "Maximum number of IDs reached" << endl << "Coming soon - Upgrade to maximum of 40 IDs for only $3.99/month" << endl;
-        return;
-    }
+void insertNewID(string IDarray[], int index) {
     cout << "Enter new Student ID in the ( StudentID StudentName ) format" << endl;
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
     string inputID;
     getline(cin, inputID);
-    IDarray[sizeCount] = inputID;
-    sizeCount++;
+    IDarray[index] = inputID;
+
 }
 
 int searchIDclient(string IDarray[], int sizeCount) {
-    cout << "To search for a student entry by name, input 1" << endl << "To search for a student ID by index, input 2";
     int index;
     int nameVsIndex;
     for (;;) {
+        cout << "To search for a student entry by ID or name, input 1" << endl << "To search for a student entry by index, input 2" << endl << "To exit this action, input 0";
         cin >> nameVsIndex;
         switch (nameVsIndex) {
+            case 0: {
+                cout << "Exiting..." << endl;
+                return -1;
+            }
             case 1: {
                 cout << "Searching by student ID or student Name" << endl << "Input student search:";
                 index = searchIDloop(IDarray, sizeCount);
@@ -107,6 +112,7 @@ int searchIDclient(string IDarray[], int sizeCount) {
                     cout << IDarray[index] << " found at index[" << index << "]" << endl;
                     return index;
                 }
+                break;
             }
             case 2: {
                 cout << "Searching student ID by index" << endl << "Student ID Index[";
@@ -117,6 +123,7 @@ int searchIDclient(string IDarray[], int sizeCount) {
                     cout << endl << "Student ID Index[" << index << "] = " << IDarray[index] << endl;
                     return index;
                 }
+                break;
             }
             default: {
                 cout << "Invalid entry, please try again." << endl;
@@ -127,7 +134,6 @@ int searchIDclient(string IDarray[], int sizeCount) {
 }
 
 int searchIDloop(string IDarray[], int sizeCount) {
-
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
     string searchTarget;
     getline(cin, searchTarget);
@@ -140,13 +146,36 @@ int searchIDloop(string IDarray[], int sizeCount) {
 }
 
 void replaceID(string IDarray[], int sizeCount) {
-
-    cout << "Enter new student ID in the ( StudentID StudentName ) format" << endl;
-    cin.ignore(numeric_limits<streamsize>::max(), '\n');
-    string inputID;
-    getline(cin, inputID);
-    IDarray[sizeCount] = inputID;
-    cout << "Student ID replaced" << endl;
+    if (sizeCount == 0) {
+        cout << "No stored IDs found" << endl;
+        return;
+    }
+    cout << "Choose student ID to be replaced" << endl;
+    int index = searchIDclient(IDarray, sizeCount);
+    if (index == -1) {
+        return;
+    }
+    cout << "Are your sure you want to replace index " << index << "?" << endl << "Currently stored information will be lost" << endl;
+    int yvsn;
+    cout << "To cancel this action, input 1" << endl << "To continue, input 2";
+    for (;;) {
+        cin >> yvsn;
+        switch (yvsn) {
+            case 1: {
+                cout << "Exiting..." << endl;
+                return;
+            }
+            case 2: {
+                insertNewID(IDarray, index);
+                cout << "Student ID replaced" << endl;
+                return;
+            }
+            default: {
+                cout << "Invalid entry, please try again." << endl;
+                break;
+            }
+        }
+    }
 }
 
 void displayIDarray(string IDarray[], int sizeCount) {
