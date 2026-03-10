@@ -18,12 +18,18 @@ void shift(string IDarray[], int sizeCount, int index);
 
 void displayIDarray(string IDarray[], int sizeCount);
 
+void copyBackup(string IDarray[], string IDarrayBackup[]);
+
+void backupCompare(string IDarray[], string IDarrayBackup[]);
+
 
 int main() {
 
     string IDarray[20];
-    for (auto & i : IDarray) {
-        i = "EMPTY";
+    string IDarrayBackup[20];
+    for (int i = 0; i <= 19; i++) {
+        IDarray[i] = "EMPTY";
+        IDarrayBackup[i] = "EMPTY";
     }
     int sizeCount = 0;
     cout << "----Student ID Manager----" << endl;
@@ -244,4 +250,14 @@ void displayIDarray(string IDarray[], int sizeCount) {
     }
 }
 
+void copyBackup(string IDarray[], string IDarrayBackup[]) {
 
+
+
+}
+
+void backupCompare(string IDarray[], string IDarrayBackup[]) {
+
+
+
+}
