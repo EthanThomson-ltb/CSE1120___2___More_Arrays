@@ -1,4 +1,3 @@
-#include <algorithm>
 #include <iostream>
 #include <string>
 #include <limits>
@@ -20,7 +19,9 @@ void displayIDarray(string IDarray[], int sizeCount);
 
 void copyBackup(string IDarray[], string IDarrayBackup[]);
 
-void backupCompare(string IDarray[], string IDarrayBackup[]);
+void backupDisplay(string IDarray[], string IDarrayBackup[]);
+
+bool backupCompare(string IDarray[], string IDarrayBackup[]);
 
 
 int main() {
@@ -34,6 +35,7 @@ int main() {
     int sizeCount = 0;
     cout << "----Student ID Manager----" << endl;
     bool loopCont = true;
+    int action;
     while (loopCont) {
         cout << endl << "----Select action----" << endl << endl;
         cout << "1. Insert ID" << endl;
@@ -45,7 +47,6 @@ int main() {
         cout << "7. Compare with Backup" << endl;
         cout << "8. Exit" << endl;
         cout << endl << "Enter action selection: ";
-        int action;
         cin >> action;
         switch (action) {
             case 1: {
@@ -74,9 +75,11 @@ int main() {
                 break;
             }
             case 6: {
+                copyBackup(IDarray, IDarrayBackup);
                 break;
             }
             case 7: {
+                backupDisplay(IDarray, IDarrayBackup);
                 break;
             }
             case 8: {
@@ -86,7 +89,7 @@ int main() {
             }
             default: {
                 cout << "Invalid action" << endl;
-                return 0;
+                break;
             }
         }
 
@@ -251,13 +254,49 @@ void displayIDarray(string IDarray[], int sizeCount) {
 }
 
 void copyBackup(string IDarray[], string IDarrayBackup[]) {
-
-
-
+    cout << "Creating backup..." << endl;
+    for (int i = 0 ; i < 20; i++) {
+        IDarrayBackup[i] = IDarray[i];
+    }
+    cout << "Backup created" << endl;
 }
 
-void backupCompare(string IDarray[], string IDarrayBackup[]) {
-
-
-
+void backupDisplay(string IDarray[], string IDarrayBackup[]) {
+    if (backupCompare(IDarray, IDarrayBackup)) {
+        cout << "Arrays are identical" << endl;
+    } else {
+        cout << "Arrays are different" << endl;
+    }
+    cout << "Display backup?" << endl;
+    int yvsn;
+    for (;;) {
+        cout << "To continue input, input 1" << endl << "To exit this action, input 2" << endl;
+        cin >> yvsn;
+        switch (yvsn) {
+            case 1: {
+                for (int i = 0; i < 20; i++) {
+                    cout << "Index[" << i << "] = " << IDarrayBackup[i] << endl;
+                }
+                return;
+            }
+            case 2: {
+                cout << "Exiting..." << endl;
+                return;
+            }
+            default: {
+                cout << "Invalid input, please try again." << endl;
+                break;
+            }
+        }
+    }
 }
+
+bool backupCompare(string IDarray[], string IDarrayBackup[]) {
+    for (int i = 0 ; i < 20; i++) {
+        if (IDarray[i] != IDarrayBackup[i]) {
+            return false;
+        }
+    }
+    return true;
+}
+
